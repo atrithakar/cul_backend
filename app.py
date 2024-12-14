@@ -17,10 +17,10 @@ def serve_files(module_name, version):
         zip_path = Path(module_dir) / zip_filename
 
         # Create a zip file containing all files in the module version directory
-        # with zipfile.ZipFile(zip_path, 'w') as zipf:
-        #     for root, dirs, files in os.walk(module_dir):
-        #         for file in files:
-        #             zipf.write(os.path.join(root, file), arcname=os.path.relpath(os.path.join(root, file), module_dir))
+        with zipfile.ZipFile(zip_path, 'w') as zipf:
+            for root, dirs, files in os.walk(module_dir):
+                for file in files:
+                    zipf.write(os.path.join(root, file), arcname=os.path.relpath(os.path.join(root, file), module_dir))
         
         return send_file(zip_path, as_attachment=True)
     except Exception as e:
