@@ -11,10 +11,12 @@ BASE_DIR = "c_cpp_modules"  # Directory containing all modules and versions
 @app.route('/files/<module_name>/<version>', methods=['GET'])
 def serve_files(module_name, version):
     module_dir = os.path.join(BASE_DIR, module_name, version)
-    
+    module_dir_wo_version = os.path.join(BASE_DIR, module_name)
     # Check if the module directory exists
+    if not os.path.exists(module_dir_wo_version):
+        return jsonify({"error": f"Module '{module_name}' not found."}), 404
     if not os.path.exists(module_dir):
-        return jsonify({"error": f"Module '{module_name}' with version '{version}' not found."}), 404
+        return jsonify({"error": f"Module '{module_name}' with version {version} not found."}), 404
 
     try:
         # Create an in-memory zip file
