@@ -8,7 +8,7 @@ BASE_DIR = "c_cpp_modules"  # Directory to serve files from
 @app.route('/files/<path:filename>', methods=['GET'])
 def serve_file(filename):
     try:
-        return send_file(BASE_DIR, filename)
+        return send_from_directory(BASE_DIR, filename)
     except FileNotFoundError:
         abort(404)
 
