@@ -1,4 +1,4 @@
-#include "../test_module_1/1.0.2/mathss.h"
+#include "../test_module_1/mathss.h"
 
 int addply(int a, int b) {
     int sum = add(a, b);
