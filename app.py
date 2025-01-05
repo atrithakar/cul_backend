@@ -16,11 +16,14 @@ def index():
         module_name = request.form.get('module_name')
         versions_json = os.path.join(BASE_DIR, module_name, 'versions.json')
         versions = None
+        error = None
         if os.path.exists(versions_json):
             with open(versions_json, 'r') as file:
                 versions = json.load(file)
                 versions = [item['version'] for item in versions.get('versions')]
-        return render_template('index.html', versions=versions,module=module_name)
+        else:
+            error = "Module not found"
+        return render_template('index.html', versions=versions,module=module_name, error=error)
     elif request.method == 'GET':
         return render_template('index.html')
 

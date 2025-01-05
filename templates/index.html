@@ -17,10 +17,13 @@
     {% if versions %}
     <h2>Search Results for {{module}}</h2>
     <ul>
-        {% for result in versions %}
-            <li>Version {{ result }} <form action="/files/{{module}}/{{result}}" method="get"><button type="submit">Download</button></form></li>
+        {% for version in versions %}
+            <li>Version {{ version }} <form action="/files/{{module}}/{{version}}" method="get"><button type="submit">Download</button></form></li>
         {% endfor %}
     </ul>
+    {% endif %}
+    {% if error %}
+    <h2>{{error}}</h2>
     {% endif %}
 </body>
 </html>
