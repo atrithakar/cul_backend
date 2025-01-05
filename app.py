@@ -1,4 +1,4 @@
-from flask import Flask, send_file, jsonify
+from flask import Flask, send_file, jsonify, request, render_template
 import os
 import zipfile
 import io
@@ -7,6 +7,22 @@ import json
 app = Flask(__name__)
 
 BASE_DIR = "c_cpp_modules"  # Directory containing all modules and versions
+
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        module_name = request.form.get('module_name')
+        versions_json = os.path.join(BASE_DIR, module_name, 'versions.json')
+        versions = None
+        if os.path.exists(versions_json):
+            with open(versions_json, 'r') as file:
+                versions = json.load(file)
+                versions = [item['version'] for item in versions.get('versions')]
+        return render_template('index.html', versions=versions,module=module_name)
+    elif request.method == 'GET':
+        return render_template('index.html')
 
 @app.route('/files/<module_name>/<version>', methods=['GET'])
 def serve_files(module_name, version):
