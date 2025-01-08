@@ -29,16 +29,19 @@ def index():
 def get_module_info(module, version):
     # Replace this with your logic to fetch module details
     module_info_file_path = os.path.join(BASE_DIR, module, version, 'module_info.json')
+    if not os.path.exists(module_info_file_path):
+        return "<h1>Error 404: Module/Version not found.</h1>", 404
     module_info = None
     with open(module_info_file_path, 'r') as file:
         module_info = json.load(file)
+    deps = module_info.get('requires', [])
     data = {
         "ModuleName": module,
         "Version": version,
         "Author": module_info.get('author'),
         "Description": module_info.get('description'),
         "License": module_info.get('license'),
-        "Dependencies": module_info.get('requires'),
+        "Dependencies": {dep.split('==')[0]: dep.split('==')[1] for dep in deps} if deps else None,
 
     }
     # print(data)

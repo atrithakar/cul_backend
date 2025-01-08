@@ -26,31 +26,53 @@ h2 {
     font-size: 2em;
 }
 
-/* List container */
-ul {
-    list-style-type: none;
-    padding: 0;
+/* Table container */
+table {
+    width: 80%;
+    max-width: 600px;
     margin: 20px auto;
+    border-collapse: collapse;
     background-color: #353b45; /* Slightly lighter background for contrast */
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 100%;
 }
 
-/* List item styling */
-ul li {
-    padding: 15px;
-    margin: 0;
-    border-bottom: 1px solid #444b55; /* Subtle divider */
+/* Table header styling */
+th {
+    text-align: left;
+    padding: 12px 15px;
     color: #abb2bf;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-weight: normal;
 }
 
-ul li:last-child {
-    border-bottom: none; /* Remove border for the last item */
+/* Table data styling */
+td {
+    padding: 12px 15px;
+    color: #abb2bf;
+    border-bottom: 1px solid #444b55; /* Subtle divider */
+    text-align: left; /* Left-align the table content */
+}
+
+/* Add a line between the two columns */
+td:first-child {
+    border-right: 2px solid #444b55; /* Adding a line between columns */
+}
+
+/* Remove the border for the last row */
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* List styling for Dependencies */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    color: #abb2bf;
+    font-size: 1.1em;
 }
 
 /* Link styling */
@@ -72,22 +94,28 @@ a:hover {
 /* Error message styles */
 h2 + h2 {
     color: #ff6b6b; /* Bright red for error messages */
+    text-align: center;
+    margin-top: 30px;
 }
 
 /* Center content */
-h2, ul, a {
+h2, table, a {
     margin: 0 auto;
     text-align: center;
-    
-    margin-bottom: 10px;
 }
 
 /* Ensure consistency with index.css buttons */
 a.download {
     background-color: #4caf50; /* Green for download */
     color: #fff;
+    padding: 12px 18px;
+    font-size: 1.1em;
 }
 
 a.download:hover {
     background-color: #45a049; /* Darker green on hover */
+}
+
+h2,table{
+    margin-bottom: 20px;
 }
