@@ -18,7 +18,7 @@
     <h2>Search Results for {{module}}</h2>
     <ul>
         {% for version in versions %}
-            <li>Version {{ version }} <form action="/files/{{module}}/{{version}}" method="get"><button type="submit">Download</button></form></li>
+            <li>Version {{ version }} <form action="/info/{{module}}/{{version}}" method="get"><button type="submit">See Details</button></form><form action="/files/{{module}}/{{version}}" method="get"><button type="submit">Download</button></form></li>
         {% endfor %}
     </ul>
     {% endif %}

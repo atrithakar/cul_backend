@@ -94,6 +94,7 @@ li button {
     color: #fff;
     padding: 5px 15px;
     font-size: 1em;
+    margin: 5px;
 }
 
 li button:hover {

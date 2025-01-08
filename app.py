@@ -8,8 +8,6 @@ app = Flask(__name__)
 
 BASE_DIR = "c_cpp_modules"  # Directory containing all modules and versions
 
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -26,6 +24,27 @@ def index():
         return render_template('index.html', versions=versions,module=module_name, error=error)
     elif request.method == 'GET':
         return render_template('index.html')
+
+@app.route('/info/<module>/<version>')
+def get_module_info(module, version):
+    # Replace this with your logic to fetch module details
+    module_info_file_path = os.path.join(BASE_DIR, module, version, 'module_info.json')
+    module_info = None
+    with open(module_info_file_path, 'r') as file:
+        module_info = json.load(file)
+    data = {
+        "ModuleName": module,
+        "Version": version,
+        "Author": module_info.get('author'),
+        "Description": module_info.get('description'),
+        "License": module_info.get('license'),
+        "Dependencies": module_info.get('requires'),
+
+    }
+    # print(data)
+    # print(jsonify(data))
+    # return jsonify(data)
+    return render_template('version_info.html', data=data)
 
 @app.route('/files/<module_name>/<version>', methods=['GET'])
 def serve_files(module_name, version):
@@ -111,6 +130,7 @@ def get_versions(module_name):
     try:
         with open(versions_file_path, 'r') as file:
             data = json.load(file)
+            print(data)
             return jsonify(data)
     except json.JSONDecodeError:
         return jsonify({"error": "Error decoding the versions.json file."}), 500

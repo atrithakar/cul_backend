@@ -1,0 +1,93 @@
+/* General reset and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #282c34; /* Dark background for contrast */
+    color: #abb2bf; /* Light gray text color */
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header styles */
+h2 {
+    color: #61dafb; /* C/C++ blue */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+/* List container */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    background-color: #353b45; /* Slightly lighter background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+}
+
+/* List item styling */
+ul li {
+    padding: 15px;
+    margin: 0;
+    border-bottom: 1px solid #444b55; /* Subtle divider */
+    color: #abb2bf;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul li:last-child {
+    border-bottom: none; /* Remove border for the last item */
+}
+
+/* Link styling */
+a {
+    text-decoration: none;
+    color: #282c34; /* Dark background for button text */
+    background-color: #61dafb; /* C/C++ blue */
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: #21a1f1; /* Lighter blue on hover */
+}
+
+/* Error message styles */
+h2 + h2 {
+    color: #ff6b6b; /* Bright red for error messages */
+}
+
+/* Center content */
+h2, ul, a {
+    margin: 0 auto;
+    text-align: center;
+    
+    margin-bottom: 10px;
+}
+
+/* Ensure consistency with index.css buttons */
+a.download {
+    background-color: #4caf50; /* Green for download */
+    color: #fff;
+}
+
+a.download:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
