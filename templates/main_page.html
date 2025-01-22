@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index_css.css') }}">
+    <title>CUL - A Package Manager For C/C++</title>
+</head>
+<body>
+    <h1>Welcome To CUL - A Package Manager For C/C++</h1>
+    <form action="/main_page" method="post">
+        <label for="module_name">Module Name:</label>
+        <input type="text" name="module_name" id="module_name" placeholder="Enter Module Name Here" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if versions %}
+    <h2>Search Results for {{module}}</h2>
+    <ul>
+        {% for version in versions %}
+            <li>Version {{ version }} <form action="/info/{{module}}/{{version}}" method="get"><button type="submit">See Details</button></form><form action="/files/{{module}}/{{version}}" method="get"><button type="submit">Download</button></form></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if error %}
+    <h2>{{error}}</h2>
+    {% endif %}
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

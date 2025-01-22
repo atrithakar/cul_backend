@@ -1,15 +1,71 @@
-from flask import Flask, send_file, jsonify, request, render_template
+from flask import Flask, send_file, jsonify, request, render_template, redirect, url_for, session
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import zipfile
 import io
 import json
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cul_db.db'
+db = SQLAlchemy(app)
+app.secret_key = "Atri Thakar"
+
+# create a class for the database
+class User(db.Model):
+    email = db.Column(db.String(80), primary_key = True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f"<email: {self.email}\npassword: {self.password}>"
+
+with app.app_context():
+    db.create_all()
 
 BASE_DIR = "c_cpp_modules"  # Directory containing all modules and versions
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
+    return render_template('index.html')
+
+@app.route('/',methods=['POST'])
+def login():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = User.query.filter_by(email=email).first()
+    if not user or not check_password_hash(user.password, password):
+        return render_template('index.html', error="Invalid email or password")
+
+    session['email'] = email
+    return redirect(url_for('main_page'))
+
+@app.route('/signup',methods=['GET'])
+def signup():
+    return render_template('signup.html')
+
+@app.route('/signup',methods=['POST'])
+def signup_user():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    hashed_password = generate_password_hash(password)
+    user = User(email=email, password=hashed_password)
+    user_exists = User.query.filter_by(email=email).first()
+    if user_exists:
+        return render_template('signup.html', error="User already exists")
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('index'))
+
+@app.route('/main_page', methods=['GET', 'POST'])
+def main_page():
+    if not session.get('email'):
+        return redirect(url_for('index'))
     if request.method == 'POST':
         module_name = request.form.get('module_name')
         versions_json = os.path.join(BASE_DIR, module_name, 'versions.json')
@@ -21,9 +77,9 @@ def index():
                 versions = [item['version'] for item in versions.get('versions')]
         else:
             error = "Module not found"
-        return render_template('index.html', versions=versions,module=module_name, error=error)
+        return render_template('main_page.html', versions=versions,module=module_name, error=error)
     elif request.method == 'GET':
-        return render_template('index.html')
+        return render_template('main_page.html')
 
 @app.route('/info/<module>/<version>')
 def get_module_info(module, version):
