@@ -15,6 +15,9 @@ app.secret_key = "Atri Thakar"
 class User(db.Model):
     email = db.Column(db.String(80), primary_key = True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    first_name = db.Column(db.String(40), nullable=False)
+    last_name = db.Column(db.String(40), nullable=True)
+    username = db.Column(db.String(40), nullable=False)
 
     def __repr__(self):
         return f"<email: {self.email}\npassword: {self.password}>"
@@ -48,11 +51,21 @@ def signup():
 def signup_user():
     email = request.form.get('email')
     password = request.form.get('password')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    username = request.form.get('username')
     hashed_password = generate_password_hash(password)
-    user = User(email=email, password=hashed_password)
+
+    user = User(email=email, password=hashed_password, first_name=first_name, last_name=last_name, username=username)
+
     user_exists = User.query.filter_by(email=email).first()
     if user_exists:
         return render_template('signup.html', error="User already exists")
+    
+    user_name_exists = User.query.filter_by(username=username).first()
+    if user_name_exists:
+        return render_template('signup.html', error="Username already exists, pick a different username.")
+
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('index'))
@@ -60,6 +73,25 @@ def signup_user():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('email', None)
+    return redirect(url_for('index'))
+
+@app.route('/change_password',methods=['POST'])
+def change_password():
+    profile = User.query.filter_by(email=session.get('email')).first()
+    old_password = request.form.get('old_password')
+    new_password = request.form.get('new_password')
+    is_old_password_correct = check_password_hash(profile.password, old_password)
+    if not is_old_password_correct:
+        return render_template('profile.html', error="Old password is incorrect",profile=profile)
+    User.query.filter_by(email=session.get('email')).update({'password': generate_password_hash(new_password)})
+    db.session.commit()
+    return render_template('profile.html', success="Password changed successfully", profile=profile)
+
+@app.route('/profile',methods=['GET'])
+def get_profile():
+    if session.get('email'):
+        profile = User.query.filter_by(email=session.get('email')).first()
+        return render_template('profile.html',profile=profile)
     return redirect(url_for('index'))
 
 @app.route('/main_page', methods=['GET', 'POST'])

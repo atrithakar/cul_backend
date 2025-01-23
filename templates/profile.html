@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUL - Profile</title>
+</head>
+<body>
+    <h1>Profile</h1>
+    {% if profile %}
+    <h2>Profile Information</h2>
+    <ul>
+        <li>Username: {{ profile['username'] }}</li>
+        <li>Email: {{ profile['email'] }}</li>
+        <li>First Name: {{ profile['first_name'] }}</li>
+        <li>Last Name: {{ profile['last_name'] }}</li>
+    </ul>
+    <form action="/change_password" method="post">
+        <label for="old_password">Enter your old password: </label>
+        <input type="text" name="old_password" id="old_password" required><br>
+        <label for="new_password">Enter your new password: </label>
+        <input type="text" name="new_password" id="new_password" required><br>
+        <button type="submit">Change Password</button>
+    </form>
+    {% else %}
+    <h2>Error occured getting profle information...</h2>
+    {% endif %}
+
+    {% if error %}
+    <h2>{{error}}</h2>
+    {% endif %}
+
+    {% if success %}
+    <h2>{{success}}</h2>
+    {% endif %}
+
+    <form action="/main_page" method="get">
+        <button type="submit">Back to Main Page</button>
+    </form>
+</body>
+</html>

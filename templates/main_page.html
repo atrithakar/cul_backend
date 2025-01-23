@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='index_css.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='index_css.css') }}"> -->
     <title>CUL - A Package Manager For C/C++</title>
 </head>
 <body>
     <h1>Welcome To CUL - A Package Manager For C/C++</h1>
+    <nav>
+        <ul>
+            <li><a href="/main_page">Home</a></li>
+            <li><a href="/upload">Upload</a></li>
+            <li><a href="/profile">Profile</a></li>
+        </ul>
+    </nav>
     <form action="/main_page" method="post">
         <label for="module_name">Module Name:</label>
         <input type="text" name="module_name" id="module_name" placeholder="Enter Module Name Here" required>
