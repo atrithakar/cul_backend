@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUL - Upload</title>
+</head>
+<body>
+    <h1>Upload a module</h1>
+    <h2>Guidelines for uploading modules</h2>
+    <ul>
+        <li>Make sure the repository is public</li>
+        <li>Make sure the repository contains a README.md file</li>
+        <li>Make sure the repository contains a LICENSE file</li>
+        <!-- <li>Make sure the repository contains a .cul file</li> -->
+    </ul>
+    <h2>Folder structure should look like this:</h2>
+    <pre>
+        .
+        |__1.0.0
+        |   |__README.md
+        |   |__LICENSE
+        |   |__module.cpp or module.c
+        |   |__module_info.json
+        |__1.0.1
+        |   |__README.md
+        |   |__LICENSE
+        |   |__module.cpp or module.c
+        |   |__module_info.json
+        and so on...
+    </pre>
+    <form action="/upload" method="post">
+        <label for="github_repo_link">Enter the link to the GitHub repository: </label>
+        <input type="text" name="github_repo_link" id="github_repo_link" required>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

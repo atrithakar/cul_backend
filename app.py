@@ -113,6 +113,12 @@ def main_page():
     elif request.method == 'GET':
         return render_template('main_page.html')
 
+@app.route('/upload_modules', methods=['GET'])
+def upload_modules():
+    if request.method == 'GET':
+        return render_template('upload_modules.html')
+    
+
 @app.route('/info/<module>/<version>')
 def get_module_info(module, version):
     # Replace this with your logic to fetch module details
