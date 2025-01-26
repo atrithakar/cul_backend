@@ -34,6 +34,29 @@
     <h2>{{success}}</h2>
     {% endif %}
 
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Module ID</th>
+                <th>Module Name</th>
+                <th>Module URL</th>
+                <th>Update Module</th>
+                <th>Delete Module</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in modules %}
+            <tr>
+                <td>{{ module['module_id'] }}</td>
+                <td>{{ module['module_name'] }}</td>
+                <td>{{ module['module_url'] }}</td>
+                <td><a href="/update_module/{{module.module_id}}">Update</a></td>
+                <td><a href="/delete_module/{{module.module_id}}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <form action="/main_page" method="get">
         <button type="submit">Back to Main Page</button>
     </form>

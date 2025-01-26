@@ -22,6 +22,15 @@ class User(db.Model):
     def __repr__(self):
         return f"<email: {self.email}\npassword: {self.password}>"
 
+class Module(db.Model):
+    module_id = db.Column(db.Integer, primary_key=True)
+    module_name = db.Column(db.String(80), nullable=False)
+    module_url = db.Column(db.String(120), nullable=False)
+    associated_user = db.Column(db.String(80), db.ForeignKey('user.email'), nullable=False)
+
+    def __repr__(self):
+        return f"<module_name: {self.module_name}\nmodule_url: {self.module_url}\nassociated_user: {self.associated_user}>"
+
 with app.app_context():
     db.create_all()
 
@@ -91,7 +100,7 @@ def change_password():
 def get_profile():
     if session.get('email'):
         profile = User.query.filter_by(email=session.get('email')).first()
-        return render_template('profile.html',profile=profile)
+        return render_template('profile.html',profile=profile,modules=Module.query.filter_by(associated_user=session.get('email')).all())
     return redirect(url_for('index'))
 
 @app.route('/main_page', methods=['GET', 'POST'])
@@ -113,11 +122,46 @@ def main_page():
     elif request.method == 'GET':
         return render_template('main_page.html')
 
-@app.route('/upload_modules', methods=['GET'])
+@app.route('/upload_modules', methods=['GET','POST'])
 def upload_modules():
     if request.method == 'GET':
         return render_template('upload_modules.html')
+    elif request.method == 'POST':
+        module_url = request.form.get('github_repo_link')
+        # assuming module_url is in the format: https://github.com/username/repo
+        module_name = module_url.split('/')[-1]
+        # check if the module already exists
+        module = Module.query.filter_by(module_name=module_name).first()
+        if module:
+            return render_template('upload_modules.html', error="Module already exists")
+        # check if module exists at provided url
+
+        # clone the repo into the c_cpp_modules directory
+        cloned_status = os.system(f"git clone {module_url} {os.path.join(BASE_DIR, module_name)}")
+        if cloned_status != 0:
+            return render_template('upload_modules.html', error="Error cloning the repository")
+        module = Module(module_name=module_name, module_url=module_url, associated_user=session.get('email'))
+        db.session.add(module)
+        db.session.commit()
+        return render_template('main_page.html')
     
+@app.route('/delete_module/<module_id>', methods=['GET','POST'])
+def delete_module(module_id):
+    module = Module.query.filter_by(module_id=module_id).first()
+    if not module:
+        return render_template('profile.html', error="Module not found")
+    os.system(f"rm -rf {os.path.join(BASE_DIR, module.module_name)}")
+    db.session.delete(module)
+    db.session.commit()
+    return render_template('profile.html')
+
+@app.route('/update_module/<module_id>', methods=['GET','POST'])
+def update_module(module_id):
+    module = Module.query.filter_by(module_id=module_id).first()
+    if not module:
+        return render_template('profile.html', error="Module not found")
+    os.system(f"cd {os.path.join(BASE_DIR, module.module_name)} && git pull")
+    return render_template('profile.html')
 
 @app.route('/info/<module>/<version>')
 def get_module_info(module, version):
