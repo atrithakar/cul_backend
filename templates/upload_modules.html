@@ -4,10 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='upload_modules.css') }}">
     <title>CUL - Upload</title>
 </head>
 
 <body>
+    <nav>
+        <ul>
+            <li><a href="/main_page">Home</a></li>
+            <li><a href="/upload_modules">Upload</a></li>
+            <li><a href="/profile">Profile</a></li>
+        </ul>
+        <a href="/logout" class="logout-link">Logout</a>
+    </nav>
     <h1>Upload a module</h1>
     <h2>Guidelines for uploading modules</h2>
     <ul>
@@ -86,10 +96,10 @@
             }
         }
     </pre>
-    <p>NOTE: For now, it will be the responsibility of module's developer to manage versions.json but the automation
-        feature will be introduced soon.</p>
+    <p><b>NOTE: For now, it will be the responsibility of module's developer to manage versions.json but the automation
+        feature will be introduced soon.</b></p>
     <h2>Link should look like this:</h2>
-    <p>https://github.com/owner_name/repo_name</p>
+    <p id="url">https://github.com/owner_name/repo_name</p>
     <form action="/upload_modules" method="post" onsubmit="return validate_link()">
         <label for="github_repo_link">Enter the link to the GitHub repository: </label>
         <input type="text" name="github_repo_link" id="github_repo_link" required>
