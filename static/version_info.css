@@ -1,121 +1,79 @@
-/* General reset and box-sizing */
-* {
+/* version_info.css */
+
+/* Body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9; /* Light background color for contrast */
+    color: #333333; /* Dark text for readability */
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #282c34; /* Dark background for contrast */
-    color: #abb2bf; /* Light gray text color */
-    padding: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     height: 100vh;
+    justify-content: flex-start;
 }
 
-/* Header styles */
 h2 {
-    color: #61dafb; /* C/C++ blue */
+    color: #4e73df; /* Blue color for headings */
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 2em;
+    margin-top: 20px;
 }
 
-/* Table container */
 table {
     width: 80%;
-    max-width: 600px;
-    margin: 20px auto;
     border-collapse: collapse;
-    background-color: #353b45; /* Slightly lighter background for contrast */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
-/* Table header styling */
-th {
+table td {
+    padding: 10px 15px;
+    border: 1px solid #d1d5db;
     text-align: left;
-    padding: 12px 15px;
-    color: #abb2bf;
-    font-weight: normal;
 }
 
-/* Table data styling */
-td {
-    padding: 12px 15px;
-    color: #abb2bf;
-    border-bottom: 1px solid #444b55; /* Subtle divider */
-    text-align: left; /* Left-align the table content */
+table th {
+    background-color: #6c63ff;
+    color: white;
+    padding: 12px;
+    text-align: left;
 }
 
-/* Add a line between the two columns */
-td:first-child {
-    border-right: 2px solid #444b55; /* Adding a line between columns */
+table td strong {
+    color: #333333; /* Darker color for strong elements */
 }
 
-/* Remove the border for the last row */
-tr:last-child td {
-    border-bottom: none;
-}
-
-/* List styling for Dependencies */
 ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    padding-left: 20px;
+    margin-top: 0;
 }
 
 ul li {
-    color: #abb2bf;
-    font-size: 1.1em;
+    color: #555555; /* Light gray text for list items */
+    font-size: 14px;
 }
 
-/* Link styling */
 a {
-    text-decoration: none;
-    color: #282c34; /* Dark background for button text */
-    background-color: #61dafb; /* C/C++ blue */
-    padding: 10px 15px;
-    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 16px;
     font-weight: bold;
-    font-size: 1em;
-    transition: background-color 0.3s;
+    background-color: #6c63ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
 }
 
 a:hover {
-    background-color: #21a1f1; /* Lighter blue on hover */
+    background-color: #5145cd; /* Slightly darker purple for hover effect */
 }
 
-/* Error message styles */
-h2 + h2 {
-    color: #ff6b6b; /* Bright red for error messages */
+h2.error {
+    color: #d9534f; /* Red color for error messages */
+    font-size: 18px;
     text-align: center;
-    margin-top: 30px;
-}
-
-/* Center content */
-h2, table, a {
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* Ensure consistency with index.css buttons */
-a.download {
-    background-color: #4caf50; /* Green for download */
-    color: #fff;
-    padding: 12px 18px;
-    font-size: 1.1em;
-}
-
-a.download:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
-
-h2,table{
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
