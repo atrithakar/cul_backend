@@ -79,7 +79,7 @@ def signup_user():
     db.session.commit()
     return redirect(url_for('index'))
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['POST','GET'])
 def logout():
     session.pop('email', None)
     return redirect(url_for('index'))
