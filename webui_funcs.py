@@ -230,3 +230,22 @@ def get_module_info_webui(module, version):
     # print(jsonify(data))
     # return jsonify(data)
     return render_template('version_info.html', data=data)
+
+def get_profile_webui():
+    '''
+    Returns the profile page if the user is logged in, else redirects to the index page
+
+    Args:
+        None
+
+    Returns:
+        profile page: if the user is logged in
+        login page: if the user is not logged in
+
+    Raises:
+        None
+    '''
+    if session.get('email'):
+        profile = User.query.filter_by(email=session.get('email')).first()
+        return render_template('profile.html',profile=profile,modules=Module.query.filter_by(associated_user=session.get('email')).all())
+    return redirect(url_for('index'))
