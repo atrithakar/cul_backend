@@ -7,7 +7,20 @@ from flask import send_file, jsonify
 BASE_DIR = "c_cpp_modules"
 
 def serve_latest_version(module_name):
+    '''
+    Sends the latest version of the specified module as a zip file. If the module is not found, returns an error message. If the versions.json file is missing, returns an error message. If the latest module path is missing in the versions.json file, returns an error message. If the latest module path does not exist, returns an error message. If any error occurs during the process, returns an error message.
 
+    Args:
+        module_name: The name of the module
+    
+    Returns:
+        zip file: if the latest version of the module is found
+        error message: if the module is not found, the versions.json file is missing, the latest module path is missing in the versions.json file, the latest module path does not exist, or any error occurs during the process
+
+    Raises:
+        json.JSONDecodeError: If an error occurs while decoding the versions.json file
+        Exception: If any other error occurs
+    '''
     versions_file_path = os.path.join(BASE_DIR, module_name, 'versions.json')
     
     # Check if the module directory exists
@@ -49,6 +62,20 @@ def serve_latest_version(module_name):
         return jsonify({"error": "An error occurred."}), 500
 
 def serve_specified_version(module_name, version):
+    '''
+    Sends the specified version of the specified module as a zip file. If the module is not found, returns an error message. If the specified version path does not exist, returns an error message. If any error occurs during the process, returns an error message.
+
+    Args:
+        module_name: The name of the module
+        version: The version of the module
+
+    Returns:
+        zip file: if the specified version of the module is found
+        error message: if the module is not found, the specified version path does not exist, or any error occurs during the process
+
+    Raises:
+        Exception: If any error occurs
+    '''
     module_dir = os.path.join(BASE_DIR, module_name, version)
     module_dir_wo_version = os.path.join(BASE_DIR, module_name)
     # Check if the module directory exists
