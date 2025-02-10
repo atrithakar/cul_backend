@@ -3,6 +3,20 @@ import json
 import io
 
 def get_latest_version_cli(module_name):
+    '''
+    Returns the latest version of the specified module. If the module is not found, returns an error message. If the versions.json file is missing, returns an error message. If any error occurs during the process, returns an error message.
+
+    Args:
+        module_name: The name of the module
+    
+    Returns:
+        latest version: if the module is found and the versions.json file exists
+        error message: if the module is not found, the versions.json file is missing, or any error occurs during the process
+
+    Raises:
+        json.JSONDecodeError: If an error occurs while decoding the versions.json file
+        Exception: If any error occurs
+    '''
     versions_file_path = os.path.join(BASE_DIR, module_name, 'versions.json')
     
     # Check if the module directory exists
@@ -24,6 +38,20 @@ def get_latest_version_cli(module_name):
         return jsonify({"error": "An error occurred."}), 500
 
 def get_versions_cli(module_name):
+    '''
+    Returns all the versions of the specified module. If the module is not found, returns an error message. If the versions.json file is missing, returns an error message. If any error occurs during the process, returns an error message.
+
+    Args:
+        module_name: The name of the module
+    
+    Returns:
+        all versions: if the module is found and the versions.json file exists
+        error message: if the module is not found, the versions.json file is missing, or any error occurs during the process
+
+    Raises:
+        json.JSONDecodeError: If an error occurs while decoding the versions.json file
+        Exception: If any error occurs
+    '''
     versions_file_path = os.path.join(BASE_DIR, module_name, 'versions.json')
     
     # Check if the module directory exists
