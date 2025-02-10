@@ -9,8 +9,9 @@ from cli_funcs import get_latest_version_cli, get_versions_cli
 from serve_files_cli import serve_latest_version, serve_specified_version
 from database import db
 from models import User, Module
-from webui_funcs import login_webui, signup_user_webui, change_password_webui, main_page_webui, upload_modules_webui, delete_module_webui, update_module_webui, get_module_info_webui
+from webui_funcs import login_webui, signup_user_webui, change_password_webui, main_page_webui, upload_modules_webui, delete_module_webui, update_module_webui, get_module_info_webui, get_profile_webui
 
+# initializing and configuring the flask app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cul_db.db'
 app.secret_key = "Atri Thakar"
@@ -20,6 +21,8 @@ with app.app_context():
     db.create_all()
 
 BASE_DIR = "c_cpp_modules"  # Directory containing all modules and versions
+
+# for all the below routes, if you want to view the docstring, please refer to the respective function that is being called.
 
 @app.route('/', methods=['GET'])
 def index():
@@ -48,10 +51,7 @@ def change_password():
 
 @app.route('/profile',methods=['GET'])
 def get_profile():
-    if session.get('email'):
-        profile = User.query.filter_by(email=session.get('email')).first()
-        return render_template('profile.html',profile=profile,modules=Module.query.filter_by(associated_user=session.get('email')).all())
-    return redirect(url_for('index'))
+    return get_profile_webui()
 
 @app.route('/main_page', methods=['GET', 'POST'])
 def main_page():
