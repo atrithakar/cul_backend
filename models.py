@@ -1,3 +1,7 @@
+'''
+This file contains all the database model used in the application.
+'''
+
 from database import db
 
 class User(db.Model):
