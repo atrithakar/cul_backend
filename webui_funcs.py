@@ -4,6 +4,19 @@ from database import db
 from models import User, Module
 
 def login_webui():
+    '''
+    Returns the login page if the user is not logged in, else redirects to the main page
+
+    Args:
+        None
+
+    Returns:
+        login page: if the user is not logged in
+        main page: if the user is logged in
+
+    Raises:
+        None
+    '''
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -15,6 +28,19 @@ def login_webui():
     return redirect(url_for('main_page'))
 
 def signup_user_webui():
+    '''
+    Returns the signup page and adds the user to the database if the user does not exist. If the user already exists, returns an error message. After adding the user to the database, redirects to the login page.
+
+    Args:
+        None
+
+    Returns:
+        signup page: if the user requests for signup and incase of any error in the singup process
+        login page: if the user is added successfully
+
+    Raises:
+        None
+    '''
     email = request.form.get('email')
     password = request.form.get('password')
     first_name = request.form.get('first_name')
@@ -37,6 +63,19 @@ def signup_user_webui():
     return redirect(url_for('index'))
 
 def change_password_webui():
+    '''
+    Changes the password of the user if the old password is correct. If the old password is incorrect, returns an error message.
+
+    Args:
+        None
+
+    Returns:
+        profile page: if the password is changed successfully
+        profile page with error: if the old password is incorrect or any other error occurs
+
+    Raises:
+        None
+    '''
     profile = User.query.filter_by(email=session.get('email')).first()
     old_password = request.form.get('old_password')
     new_password = request.form.get('new_password')
@@ -48,6 +87,19 @@ def change_password_webui():
     return render_template('profile.html', success="Password changed successfully", profile=profile)
 
 def main_page_webui():
+    '''
+    Returns the main page if the user is logged in, else redirects to the index page
+
+    Args:
+        None
+
+    Returns:
+        main page: if the user is logged in
+        login page: if the user is not logged in
+
+    Raises:
+        None
+    '''
     if not session.get('email'):
         return redirect(url_for('index'))
     if request.method == 'POST':
@@ -66,6 +118,20 @@ def main_page_webui():
         return render_template('main_page.html')
 
 def upload_modules_webui():
+    '''
+    If the request method is GET, returns the upload modules page. If the request method is POST, clones the module from the provided github link and adds the module to the database. If the module already exists, returns an error message. If the module is not found at the provided url, returns an error message. If the module is cloned successfully and added to the database, redirects to the main page. If any error occurs during the process, returns an error message.
+
+    Args:
+        None
+    
+    Returns:
+        upload modules page: if the request method is GET
+        main page: if the module is cloned successfully and added to the database
+        upload modules page with error: if the module already exists or any error occurs during the process
+
+    Raises:
+        None
+    '''
     if request.method == 'GET':
         return render_template('upload_modules.html')
     elif request.method == 'POST':
@@ -88,6 +154,19 @@ def upload_modules_webui():
         return render_template('main_page.html')
 
 def delete_module_webui(module_id):
+    '''
+    Deletes the module from the database and the c_cpp_modules directory. If the module is not found, returns an error message. If the module is deleted successfully, redirects to the profile page. If any error occurs during the process, returns an error message.
+
+    Args:
+        module_id: The id of the module to be deleted
+
+    Returns:
+        profile page: if the module is deleted successfully
+        profile page with error: if the module is not found or any error occurs during the process
+
+    Raises:
+        None
+    '''
     module = Module.query.filter_by(module_id=module_id).first()
     if not module:
         return render_template('profile.html', error="Module not found")
@@ -97,6 +176,19 @@ def delete_module_webui(module_id):
     return render_template('profile.html')
 
 def update_module_webui(module_id):
+    '''
+    Updates the module by pulling the changes from the github repository. If the module is not found, returns an error message. If the module is updated successfully, redirects to the profile page. If any error occurs during the process, returns an error message.
+
+    Args:
+        module_id: The id of the module to be updated
+
+    Returns:
+        profile page: if the module is updated successfully
+        profile page with error: if the module is not found or any error occurs during the process
+
+    Raises:
+        None
+    '''
     module = Module.query.filter_by(module_id=module_id).first()
     if not module:
         return render_template('profile.html', error="Module not found")
@@ -104,7 +196,20 @@ def update_module_webui(module_id):
     return render_template('profile.html')
 
 def get_module_info_webui(module, version):
-    # Replace this with your logic to fetch module details
+    '''
+    Queries the database to get the module information. If the module is not found, returns an error message. If the module is found, returns the module information. If the module has dependencies, returns the dependencies as well. If any error occurs during the process, returns an error message.
+
+    Args:
+        module: The name of the module
+        version: The version of the module
+
+    Returns:
+        module information page: if the module is found
+        error message: if the module is not found or any error occurs during the process
+
+    Raises:
+        None
+    '''
     module_info_file_path = os.path.join(BASE_DIR, module, version, 'module_info.json')
     if not os.path.exists(module_info_file_path):
         return "<h1>Error 404: Module/Version not found.</h1>", 404
