@@ -5,7 +5,7 @@ import zipfile
 import io
 import json
 from flask_sqlalchemy import SQLAlchemy
-from cli_funcs import get_latest_version_cli, get_versions_cli
+from cli_funcs import get_latest_version_cli, get_versions_cli, get_module_names_cli
 from serve_files_cli import serve_latest_version, serve_specified_version
 from database import db
 from models import User, Module
@@ -88,6 +88,10 @@ def get_versions(module_name):
 @app.route('/latest_version/<module_name>', methods=['GET'])
 def get_latest_version(module_name):
     return get_latest_version_cli(module_name)
+
+@app.route('/modules', methods=['GET'])
+def get_module_names():
+    return get_module_names_cli()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

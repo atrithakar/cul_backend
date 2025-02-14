@@ -1,6 +1,11 @@
 import os
 import json
 import io
+from database import db
+from models import Module
+from flask import jsonify
+
+BASE_DIR = "c_cpp_modules"
 
 def get_latest_version_cli(module_name):
     '''
@@ -72,3 +77,13 @@ def get_versions_cli(module_name):
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred."}), 500
+
+def get_module_names_cli():
+    """Fetch all module names from the 'module' table using SQLAlchemy."""
+    try:
+        modules = Module.query.all()  # Fetch all module records
+        module_list = [m.module_name for m in modules]  # Convert to dicts
+        return jsonify(module_list)  # Return as JSON
+    except Exception as e:
+        print(f"Database error: {e}")
+        return jsonify({"error": "Database query failed"}), 500
