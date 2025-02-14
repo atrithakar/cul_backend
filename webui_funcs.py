@@ -2,6 +2,9 @@ from flask import request, render_template, redirect, url_for, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from database import db
 from models import User, Module
+import os
+
+BASE_DIR = "c_cpp_modules"
 
 def login_webui():
     '''
