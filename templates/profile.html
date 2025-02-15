@@ -29,6 +29,8 @@
     <h2>{{success}}</h2>
     {% endif %}
 
+    {% if modules %}
+    <h2>Published Modules</h2>
     <table border="1">
         <thead>
             <tr>
@@ -51,6 +53,9 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <h2>No modules published</h2>
+    {% endif %}
 
     <form action="/change_password" method="post">
         <label for="old_password">Enter your old password: </label>
