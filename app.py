@@ -23,7 +23,6 @@ with app.app_context():
 BASE_DIR = "c_cpp_modules"  # Directory containing all modules and versions
 
 # for all the below routes, if you want to view the docstring, please refer to the respective function that is being called.
-
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
