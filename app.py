@@ -70,7 +70,7 @@ def update_module(module_id):
 
 @app.route('/info/<module>/<version>')
 def get_module_info(module, version):
-    return get_module_info_webui()
+    return get_module_info_webui(module, version)
 
 @app.route('/files/<module_name>/<version>', methods=['GET'])
 def serve_files(module_name, version):

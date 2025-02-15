@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from database import db
 from models import User, Module
 import os
+import json
 
 BASE_DIR = "c_cpp_modules"
 
@@ -176,7 +177,9 @@ def delete_module_webui(module_id):
     os.system(f"rm -rf {os.path.join(BASE_DIR, module.module_name)}")
     db.session.delete(module)
     db.session.commit()
-    return render_template('profile.html')
+    profile = User.query.filter_by(email=session.get('email')).first()
+    modules = Module.query.filter_by(associated_user=session.get('email')).all()
+    return render_template('profile.html',profile=profile,modules=modules)
 
 def update_module_webui(module_id):
     '''
@@ -196,7 +199,9 @@ def update_module_webui(module_id):
     if not module:
         return render_template('profile.html', error="Module not found")
     os.system(f"cd {os.path.join(BASE_DIR, module.module_name)} && git pull")
-    return render_template('profile.html')
+    profile = User.query.filter_by(email=session.get('email')).first()
+    modules = Module.query.filter_by(associated_user=session.get('email')).all()
+    return render_template('profile.html',profile=profile,modules=modules)
 
 def get_module_info_webui(module, version):
     '''
