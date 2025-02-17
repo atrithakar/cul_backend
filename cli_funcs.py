@@ -58,6 +58,10 @@ def get_versions_cli(module_name):
         Exception: If any error occurs
     '''
     versions_file_path = os.path.join(BASE_DIR, module_name, 'versions.json')
+    latest_version_path = None
+    data = None
+    module_info = None
+    data_to_send = None
     
     # Check if the module directory exists
     if not os.path.exists(os.path.join(BASE_DIR, module_name)):
@@ -70,8 +74,18 @@ def get_versions_cli(module_name):
     try:
         with open(versions_file_path, 'r') as file:
             data = json.load(file)
-            print(data)
-            return jsonify(data)
+            latest_version_path = os.path.join(BASE_DIR, data.get('latest_path'),'module_info.json')
+            
+        with open(latest_version_path, 'r') as file:
+            module_info = json.load(file)
+
+        data_to_send = {
+            "all_versions": data,
+            "author": module_info.get('author'),
+            "description": module_info.get('description'),
+            "license": module_info.get('license'),
+        }
+        return jsonify(data_to_send)
     except json.JSONDecodeError:
         return jsonify({"error": "Error decoding the versions.json file."}), 500
     except Exception as e:
