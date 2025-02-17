@@ -1,10 +1,4 @@
-from flask import Flask, send_file, jsonify, request, render_template, redirect, url_for, session
-from werkzeug.security import generate_password_hash, check_password_hash
-import os
-import zipfile
-import io
-import json
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, redirect, url_for, session
 from cli_funcs import get_latest_version_cli, get_versions_cli, get_module_names_cli
 from serve_files_cli import serve_latest_version, serve_specified_version
 from database import db
