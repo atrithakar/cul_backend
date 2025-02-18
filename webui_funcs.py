@@ -4,6 +4,7 @@ from database import db
 from models import User, Module
 import os
 import json
+from rapidfuzz import process
 
 BASE_DIR = "c_cpp_modules"
 
@@ -106,20 +107,40 @@ def main_page_webui():
     '''
     if not session.get('email'):
         return redirect(url_for('index'))
+    
     if request.method == 'POST':
-        module_name = request.form.get('module_name')
-        versions_json = os.path.join(BASE_DIR, module_name, 'versions.json')
-        versions = None
-        error = None
-        if os.path.exists(versions_json):
-            with open(versions_json, 'r') as file:
-                versions = json.load(file)
-                versions = [item['version'] for item in versions.get('versions')]
+        module_name_input = request.form.get('module_name')
+        
+        # List all directories (module names) from BASE_DIR
+        available_modules = [d for d in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, d))]
+        
+        # Perform fuzzy search to get all matches
+        all_matches = process.extract(module_name_input, available_modules, limit=None)
+        
+        # Filter matches with a similarity score above 70
+        matched_modules = [match[0] for match in all_matches if match[1] > 70]
+        
+        module_versions_dict = {}  # Dictionary to store module names and their versions
+
+        if matched_modules:
+            error = None
+            for module_name in matched_modules:
+                versions_json = os.path.join(BASE_DIR, module_name, 'versions.json')
+                if os.path.exists(versions_json):
+                    with open(versions_json, 'r') as file:
+                        module_versions = json.load(file)
+                        module_versions_dict[module_name] = [item['version'] for item in module_versions.get('versions', [])]
+                else:
+                    error = "Some modules were found, but versions could not be loaded."
+
+            return render_template('main_page.html', module_versions=module_versions_dict, error=error)
         else:
-            error = "Module not found"
-        return render_template('main_page.html', versions=versions,module=module_name, error=error)
+            error = "No matching modules found."
+            return render_template('main_page.html', error=error)
+    
     elif request.method == 'GET':
         return render_template('main_page.html')
+
 
 def upload_modules_webui():
     '''
