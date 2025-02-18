@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CUL - A Package Manager For C/C++</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main_page.css') }}">
 </head>
+
 <body>
     <nav>
         <ul>
@@ -24,23 +26,29 @@
         <button type="submit">Search</button>
     </form>
 
-    {% if versions %}
-    <h2>Search Results for {{module}}</h2>
+    {% if module_versions %}
+    <h2>Search Results:</h2>
     <ul>
+        {% for module, versions in module_versions.items() %}
+
         {% for version in versions %}
-            <li>Version {{ version }} 
-                <form action="/info/{{module}}/{{version}}" method="get">
-                    <button type="submit">See Details</button>
-                </form>
-                <form action="/files/{{module}}/{{version}}" method="get">
-                    <button type="submit">Download</button>
-                </form>
-            </li>
+        <li>Module: {{ module }} Version: {{ version }}
+            <form action="/info/{{ module }}/{{ version }}" method="get">
+                <button type="submit">See Details</button>
+            </form>
+            <form action="/files/{{ module }}/{{ version }}" method="get">
+                <button type="submit">Download</button>
+            </form>
+        </li>
+        {% endfor %}
+
         {% endfor %}
     </ul>
     {% endif %}
+
     {% if error %}
-    <h2 class="error">{{error}}</h2>
+    <h2 class="error">{{ error }}</h2>
     {% endif %}
 </body>
+
 </html>
