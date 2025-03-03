@@ -23,4 +23,4 @@ This is just a **prototype**, and the final version will include:
 
 Stay tuned for updates as we continue improving the project! 🚀  
 
-## NOTE:The backend has been migrated from Flask + SQLite to FastAPI + MongoDB. Currently the new backend isn't deployed but you can have a look at the code [here](https://github.com/atrithakar/cul_backend_fastapi_mongodb)
+## NOTE: The backend has been migrated from Flask + SQLite to FastAPI + MongoDB. Currently the new backend isn't deployed but you can have a look at the code [here](https://github.com/atrithakar/cul_backend_fastapi_mongodb).
