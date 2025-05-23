@@ -1,26 +1,36 @@
-# 🚨 NOTICE 🚨  
+# ⚙️ Project CUL – Legacy Backend (Flask + SQLite)
 
-## ⚠️ THIS PROJECT IS STILL UNDER DEVELOPMENT ⚠️  
+> ⚠️ This backend is now deprecated and replaced with a faster, scalable backend.  
+> 👉 New backend code (FastAPI + MongoDB):  
+> 🔗 **[cul_backend_fastapi_mongodb](https://github.com/atrithakar/cul_backend_fastapi_mongodb)**  
+>  
+> CLI frontend of Project CUL:  
+> 🔗 **[project_cul](https://github.com/atrithakar/project_cul)**
 
-The production database is currently **READ-ONLY**, meaning any actions that involve writing to the database are disabled for now. However, you can still explore the system using the credentials below.  
+---
 
-### 🔗 Access the Project:  
+## 🚨 NOTICE 🚨  
+
+### ⚠️ THIS PROJECT IS STILL UNDER DEVELOPMENT ⚠️  
+
+The production database for this prototype is currently **READ-ONLY**, meaning any write operations (like upload or edit) are disabled.  
+However, you can still explore the system and its features using the test credentials provided below.
+
+---
+
+### 🔗 Access the Project  
 👉 **[CUL Live Demo](https://culb.vercel.app/)**  
 
-### 🔑 Test Login Credentials:  
+---
+
+### 🔑 Test Login Credentials  
 1. **Email:** `b@b.b`  
    **Password:** `b`  
 2. **Email:** `c@c.c`  
    **Password:** `c`  
 
-While logged in, you can navigate through the system and explore its features, but **modifications, updates, or any write operations are disabled**.  
+You can explore the interface and features freely, but any **modifications or updates will not be saved**.
 
-### 🛠️ Future Plans:  
-This is just a **prototype**, and the final version will include:  
-✅ Migration to a **more efficient database and backend**  
-✅ Enhanced backend performance  
-✅ Full support for database write operations  
+---
 
-Stay tuned for updates as we continue improving the project! 🚀  
-
-## NOTE: The backend has been migrated from Flask + SQLite to FastAPI + MongoDB. Currently the new backend isn't deployed but you can have a look at the code [here](https://github.com/atrithakar/cul_backend_fastapi_mongodb).
+Stay tuned as the project evolves! 🚀
